@@ -1,0 +1,2 @@
+drop_table("transactions", "payment_intent")
+drop_table("transactions", "payment_method")
