@@ -25,7 +25,7 @@
         <input type="hidden" name="product_id" value="{{$widget.ID}}">
         <input type="hidden" name="amount" id="amount" value="{{$widget.Price}}">
 
-        <h3 class="mt-2 text-center mb-3">{{$widget.Name}}: {{formatCurrency $widget.Price}}</h3>
+        <h3 class="mt-2 text-center mb-3">{{$widget.ID}}. {{$widget.Name}}: {{formatCurrency $widget.Price}}</h3>
         <p>{{$widget.Description}}</p>
         <hr>
 

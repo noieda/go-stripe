@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul 27 22:03:44 2022
+# Make data base, printed on Sat Jul 30 16:56:32 2022
 
 # Variables
 
@@ -45,7 +45,7 @@ GOPATH = C:\Users\nekro\go
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_14376_XXJILDSFQSZOQHCZ
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_10512_GFMOKIPWYPNUJBFZ
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -101,7 +101,7 @@ MAKEFILE_LIST := Makefile .env
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 14376
+VSCODE_PID = 10512
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # environment
@@ -190,8 +190,7 @@ USERDOMAIN_ROAMINGPROFILE = LAPTOP-92B34I7P
 NUMBER_OF_PROCESSORS = 8
 # environment
 PUBLIC = C:\Users\Public
-# en 
-vironment
+# environment
 APPDATA = C:\Users\nekro\AppData\Roaming
 # environment
 HOMEDRIVE = C:
@@ -378,6 +377,6 @@ stop_front:
 # strcache performance: lookups = 57 / hit rate = 43%
 # hash-table stats:
 # Load=32/8192=0%, Rehash=0, Collisions=0/57=0%
-# Finished Make data base on Wed Jul 27 22:03:44 2022
+# Finished Make data base on Sat Jul 30 16:56:32 2022
 
  

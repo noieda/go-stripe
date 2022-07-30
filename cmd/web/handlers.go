@@ -68,7 +68,9 @@ func (app *application) GetTransactionData(r *http.Request) (TransactionData, er
 	paymentCurrency := r.Form.Get("payment_currency")
 
 	amount, _ := strconv.Atoi(paymentAmount)
+
 	// widgetID, _ := strconv.Atoi(r.Form.Get("product_id"))
+
 	card := cards.Card{
 		Secret: app.config.stripe.secret,
 		Key:    app.config.stripe.key,
@@ -107,28 +109,8 @@ func (app *application) GetTransactionData(r *http.Request) (TransactionData, er
 	return txnData, nil
 }
 
-func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request) {
-
-	// err := r.ParseForm()
-	// if err != nil {
-	// 	app.errorLog.Println((err))
-	// 	return
-	// }
-
-	// read posted data
-	// firstName := r.Form.Get("first_name")
-	// lastName := r.Form.Get("last_name")
-	// email := r.Form.Get("cardholder_email")
-	// paymentIntent := r.Form.Get("payment_intent")
-	// paymentMethod := r.Form.Get("payment_method")
-	// paymentAmount := r.Form.Get("payment_amount")
-	// paymentCurrency := r.Form.Get("payment_currency")
-	widgetID, _ := strconv.Atoi(r.Form.Get("product_id"))
-
-	// card := cards.Card{
-	// 	Secret: app.config.stripe.secret,
-	// 	Key:    app.config.stripe.key,
-	// }
+// PaymentSucceeded displays the receipt page
+func (app *application) VirtualTerminalPaymentSucceeded(w http.ResponseWriter, r *http.Request) {
 
 	txnData, err := app.GetTransactionData(r)
 	if err != nil {
@@ -136,17 +118,71 @@ func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	// pi, err := card.RetrievePaymentIntent(paymentIntent)
-	// if err != nil {
-	// 	app.errorLog.Println(err)
-	// 	return
-	// }
+	// create new order
 
-	// pm, err := card.GetPaymentMethod(paymentMethod)
-	// if err != nil {
-	// 	app.errorLog.Println(err)
-	// 	return
-	// }
+	// create new transaction
+	txn := models.Transaction{
+		Amount:              txnData.PaymentAmount,
+		Currency:            txnData.PaymentCurrency,
+		LastFour:            txnData.LastFour,
+		ExpiryMonth:         txnData.ExpiryMonth,
+		ExpiryYear:          txnData.ExpiryYear,
+		PaymentIntent:       txnData.PaymentIntentID,
+		PaymentMethod:       txnData.PaymentMethodID,
+		BankReturnCode:      txnData.BackReturnCode,
+		TransactionStatusID: 2,
+	}
+
+	_, err = app.SaveTransaction(txn)
+	// fmt.Println("lewat sana")
+	if err != nil {
+		// fmt.Println("lewat sini")
+
+		app.errorLog.Println(err)
+		return
+	}
+
+	// write this data to session and then redirect user to new page
+	app.Session.Put(r.Context(), "receipt", txnData)
+	http.Redirect(w, r, "/virtual-terminal-receipt", http.StatusSeeOther)
+
+}
+
+func (app *application) VirtualTerminalReceipt(w http.ResponseWriter, r *http.Request) {
+
+	txn := app.Session.Get(r.Context(), "receipt").(TransactionData)
+	app.Session.Remove(r.Context(), "receipt")
+
+	data := make(map[string]interface{})
+
+	data["txn"] = txn
+
+	if err := app.renderTemplate(w, r, "virtual-terminal-receipt", &templateData{
+		Data: data,
+	}); err != nil {
+		app.errorLog.Println(err)
+	}
+
+}
+
+// PaymentSucceeded displays the receipt page
+func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+	if err != nil {
+		app.errorLog.Println(err)
+		return
+	}
+
+	widgetID, _ := strconv.Atoi(r.Form.Get("product_id"))
+
+	app.infoLog.Println(widgetID)
+
+	txnData, err := app.GetTransactionData(r)
+	if err != nil {
+		app.errorLog.Println(err)
+		return
+	}
 
 	// create new customer
 	customerID, err := app.SaveCustomer(txnData.FirstName, txnData.LastName, txnData.Email)
@@ -191,6 +227,8 @@ func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request)
 		CreatedAt:     time.Now(),
 		UpdatedAt:     time.Now(),
 	}
+
+	app.infoLog.Println(order)
 
 	_, err = app.SaveOrder(order)
 	if err != nil {
