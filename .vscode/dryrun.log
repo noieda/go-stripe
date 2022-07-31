@@ -2,8 +2,8 @@ make.exe --dry-run --always-make --keep-going --print-directory
 make: Entering directory 'd:/b._Repositori/11._stripetutor/go-stripe'
 echo Cleaning...
 echo y | DEL /S dist
- 
 go clean
+ 
 echo Cleaned and deleted binaries
 echo Building front end...
 go build -o dist/gostripe.exe ./cmd/web

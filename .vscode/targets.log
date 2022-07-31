@@ -7,8 +7,9 @@ make: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Sat Jul 30 16:56:32 2022
+# Make data base, printed on Sun Jul 31 05:24:56 2022
 
 # Variables
 
@@ -45,7 +46,8 @@ GOPATH = C:\Users\nekro\go
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_10512_GFMOKIPWYPNUJBFZ
+CHROME_CRASHPAD_PIPE_NAME = \\.\ 
+pipe\crashpad_34988_ZLAWDWWLOEABYXTU
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -101,7 +103,7 @@ MAKEFILE_LIST := Makefile .env
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 10512
+VSCODE_PID = 34988
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # environment
@@ -190,7 +192,8 @@ USERDOMAIN_ROAMINGPROFILE = LAPTOP-92B34I7P
 NUMBER_OF_PROCESSORS = 8
 # environment
 PUBLIC = C:\Users\Public
-# environment
+# en 
+vironment
 APPDATA = C:\Users\nekro\AppData\Roaming
 # environment
 HOMEDRIVE = C:
@@ -225,7 +228,8 @@ ALLUSERSPROFILE = C:\ProgramData
 # environment
 SESSIONNAME = Console
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync load
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target ex 
+tra-prereqs archives jobserver output-sync load
 # environment
 MIC_LD_LIBRARY_PATH = C:\Program Files (x86)\Common Files\Intel\Shared Libraries\compiler\lib\mic
 # environment
@@ -243,7 +247,8 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 165 Stepping 2, GenuineIntel
 
 # Directories
 
-# . (key d:/b._Repositori/11._stripetutor/go-stripe, mtime 1658155101): 19 files, no impossibilities.
+# . (key d:/b. 
+_Repositori/11._stripetutor/go-stripe, mtime 1658155101): 19 files, no impossibilities.
 
 # 19 files, no impossibilities in 1 directories.
 
@@ -279,7 +284,8 @@ start_back: build_back
 # Not a target:
 .env:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-18 18:22:40
+#  Last modif 
+ied 2022-07-18 18:22:40
 #  File has been updated.
 #  Successfully updated.
 
@@ -377,6 +383,6 @@ stop_front:
 # strcache performance: lookups = 57 / hit rate = 43%
 # hash-table stats:
 # Load=32/8192=0%, Rehash=0, Collisions=0/57=0%
-# Finished Make data base on Sat Jul 30 16:56:32 2022
+# Finished Make data base on Sun Jul 31 05:24:56 2022
 
  
