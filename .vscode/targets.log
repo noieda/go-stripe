@@ -7,9 +7,8 @@ make: *** No rule to make target 'all'.  Stop.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Sun Jul 31 05:24:56 2022
+# Make data base, printed on Mon Aug 01 18:51:46 2022
 
 # Variables
 
@@ -46,8 +45,7 @@ GOPATH = C:\Users\nekro\go
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\ 
-pipe\crashpad_34988_ZLAWDWWLOEABYXTU
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_45672_IHANVCHKJISXMGJE
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -103,7 +101,8 @@ MAKEFILE_LIST := Makefile .env
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 34988
+V 
+SCODE_PID = 45672
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # environment
@@ -192,8 +191,7 @@ USERDOMAIN_ROAMINGPROFILE = LAPTOP-92B34I7P
 NUMBER_OF_PROCESSORS = 8
 # environment
 PUBLIC = C:\Users\Public
-# en 
-vironment
+# environment
 APPDATA = C:\Users\nekro\AppData\Roaming
 # environment
 HOMEDRIVE = C:
@@ -228,8 +226,7 @@ ALLUSERSPROFILE = C:\ProgramData
 # environment
 SESSIONNAME = Console
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target ex 
-tra-prereqs archives jobserver output-sync load
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync load
 # environment
 MIC_LD_LIBRARY_PATH = C:\Program Files (x86)\Common Files\Intel\Shared Libraries\compiler\lib\mic
 # environment
@@ -284,8 +281,7 @@ start_back: build_back
 # Not a target:
 .env:
 #  Implicit rule search has been done.
-#  Last modif 
-ied 2022-07-18 18:22:40
+#  Last modified 2022-07-18 18:22:40
 #  File has been updated.
 #  Successfully updated.
 
@@ -377,12 +373,13 @@ stop_front:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 32 / storage = 259 B / avg = 8 B
+# strcache buffers: 1 (0) / strings = 32 / stora 
+ge = 259 B / avg = 8 B
 # current buf: size = 8174 B / used = 259 B / count = 32 / avg = 8 B
 
 # strcache performance: lookups = 57 / hit rate = 43%
 # hash-table stats:
 # Load=32/8192=0%, Rehash=0, Collisions=0/57=0%
-# Finished Make data base on Sun Jul 31 05:24:56 2022
+# Finished Make data base on Mon Aug 01 18:51:46 2022
 
  
