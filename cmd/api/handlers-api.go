@@ -2,10 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"go-stripe/internal/cards"
 	"go-stripe/internal/models"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -277,16 +280,79 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 		app.invalidCredentials(w)
 		return
 	}
+
 	// generate the token
+	token, err := models.GenerateToken(user.ID, 24*time.Hour, models.ScopeAuthentication)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	// save token to database
+	err = app.DB.InsertToken(token, user)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
 
 	// send response
+
+	var payload struct {
+		Error   bool          `json:"error"`
+		Message string        `json:"message"`
+		Token   *models.Token `json:"authentication_token"`
+	}
+	payload.Error = false
+	payload.Message = fmt.Sprintf("token for %s created", userInput.Email)
+	payload.Token = token
+
+	_ = app.writeJSON(w, http.StatusOK, payload)
+}
+
+func (app *application) AuthenticateToken(r *http.Request) (*models.User, error) {
+
+	authorizationHeader := r.Header.Get("Authorization")
+	if authorizationHeader == "" {
+		return nil, errors.New("no authorization header receive")
+	}
+
+	headerParts := strings.Split(authorizationHeader, " ")
+	if len(headerParts) != 2 || headerParts[0] != "Bearer" {
+		return nil, errors.New("no authorization header receive")
+	}
+
+	// len token will always be 26 if correct
+	token := headerParts[1]
+	if len(token) != 26 {
+		return nil, errors.New("authentication token wrong size")
+	}
+
+	//  get the user from the tokens table
+	user, err := app.DB.GetUserForToken(token)
+	if err != nil {
+		return nil, errors.New("no matching user found")
+	}
+
+	return user, nil
+}
+
+func (app *application) CheckAuthentication(w http.ResponseWriter, r *http.Request) {
+
+	// validated the token and get associated user
+
+	user, err := app.AuthenticateToken(r)
+	if err != nil {
+		app.invalidCredentials(w)
+		return
+	}
 
 	var payload struct {
 		Error   bool   `json:"error"`
 		Message string `json:"message"`
 	}
-	payload.Error = false
-	payload.Message = "Success!"
 
-	_ = app.writeJSON(w, http.StatusOK, payload)
+	payload.Error = false
+	payload.Message = fmt.Sprintf("authenticated user %s", user.Email)
+	app.writeJSON(w, http.StatusOK, payload)
+
 }

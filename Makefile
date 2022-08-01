@@ -60,3 +60,6 @@ stop_back:
 	@echo Stopping the back end...
 	@taskkill /IM gostripe_api.exe /F
 	@echo Stopped back end
+
+## restart: stops and starts the front and back end
+restart: stop_front stop_back start_front start_back
