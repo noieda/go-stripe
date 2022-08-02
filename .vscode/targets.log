@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Aug 01 18:51:46 2022
+# Make data base, printed on Tue Aug 02 10:09:02 2022
 
 # Variables
 
@@ -45,7 +45,7 @@ GOPATH = C:\Users\nekro\go
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_45672_IHANVCHKJISXMGJE
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_17180_YRZNBMUZJADSXFAK
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -101,8 +101,7 @@ MAKEFILE_LIST := Makefile .env
 # automatic
 @F = $(notdir $@)
 # environment
-V 
-SCODE_PID = 45672
+VSCODE_PID = 17180
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # environment
@@ -200,8 +199,6 @@ NVM_SYMLINK = C:\Program Files\nodejs
 # environment
 PROCESSOR_ARCHITECTURE = x86
 # environment
-GOMODCACHE = C:\Users\nekro\go\pkg\mod
-# environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
 COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
@@ -213,8 +210,6 @@ ELECTRON_RUN_AS_NODE = 1
 TEMP = C:\Users\nekro\AppData\Local\Temp
 # environment
 VSCODE_IPC_HOOK = \\.\pipe\778e264f41b784bfda0273ad8064dd57-1.69.1-main-sock
-# environment
-GOPROXY = https://proxy.golang.org,direct
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -236,7 +231,7 @@ REGIONCODE = APJ
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 165 Stepping 2, GenuineIntel
 # variable set hash-table stats:
-# Load=111/1024=11%, Rehash=0, Collisions=14/140=10%
+# Load=109/1024=11%, Rehash=0, Collisions=14/138=10%
 
 # Pattern-specific Variable Values
 
@@ -244,10 +239,9 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 165 Stepping 2, GenuineIntel
 
 # Directories
 
-# . (key d:/b. 
-_Repositori/11._stripetutor/go-stripe, mtime 1658155101): 19 files, no impossibilities.
+# . (key d:/b._Repositori/11._stripetutor/go-stripe, mtime 1659372204): 20 files, no impossibilities.
 
-# 19 files, no impossibilities in 1 directories.
+# 20 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -288,7 +282,7 @@ start_back: build_back
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-19 14:09:22
+#  Last modified 2022-08-01 22:17:18
 #  File has been updated.
 #  Successfully updated.
 
@@ -356,6 +350,11 @@ build: clean build_front build_back
 #  recipe to execute (from 'Makefile', line 12):
 	@echo All binaries built!
 
+restart: stop_front stop_back start_front start_back
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 stop_front:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -366,20 +365,19 @@ stop_front:
 	@echo Stopped front end
 
 # files hash-table stats:
-# Load=15/1024=1%, Rehash=0, Collisions=0/42=0%
+# Load=16/1024=2%, Rehash=0, Collisions=1/47=2%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 32 / stora 
-ge = 259 B / avg = 8 B
-# current buf: size = 8174 B / used = 259 B / count = 32 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 34 / storage = 278 B / avg = 8 B
+# current buf: size = 8174 B / used = 278 B / count = 34 / avg = 8 B
 
-# strcache performance: lookups = 57 / hit rate = 43%
+# strcache performance: lookups = 64 / hit rate = 46%
 # hash-table stats:
-# Load=32/8192=0%, Rehash=0, Collisions=0/57=0%
-# Finished Make data base on Mon Aug 01 18:51:46 2022
+# Load=34/8192=0%, Rehash=0, Collisions=0/64=0%
+# Finished Make data base on Tue Aug 02 10:09:02 2022
 
  
