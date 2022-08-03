@@ -63,3 +63,9 @@ stop_back:
 
 ## restart: stops and starts the front and back end
 restart: stop_front stop_back start_front start_back
+
+## restart_front: restart the front end
+restart_front: stop_front start_front
+
+## restart_back: restart the back end
+restart_back: stop_back start_back

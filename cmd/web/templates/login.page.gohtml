@@ -9,9 +9,9 @@
         <div class="col-md-6 offset-md-3">
         
             <div class="alert alert-danger text-center d-none" id="login-messages">
-                </div>
+            </div>
 
-            <form action="" method="post"
+            <form action="" method="post" action="/login"
                 name="login_form" id="login_form"
                 class="d-block needs-validation charge-form"
                 autocomplete="off" novalidate="">
@@ -30,15 +30,14 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required="" autocomplete="password-new">
                 </div>
-
-                
-
-            <!-- card number will be built by sripe -->
-
             
-
             <hr>
             <a href="javascript:void(0)" class="btn btn-primary" onclick="val()">Login</a>
+            
+            <p class="mt-2">
+                <small><a href="/forgot-password">Forgot password?</a>
+            </p>
+            
             <div id="processing-payment" class="text-center d-none">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -105,7 +104,8 @@
                     localStorage.setItem('token_expiry', data.authentication_token.expiry)
                     showSuccess()
                     console.log("login success")
-                    location.href ="/"
+                    //location.href ="/"
+                    document.getElementById("login_form").submit()
                 } else {
                     console.log("login gagal")
                     showError(data.message)

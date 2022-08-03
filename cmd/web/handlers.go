@@ -349,3 +349,40 @@ func (app *application) LoginPage(w http.ResponseWriter, r *http.Request) {
 		app.errorLog.Print(err)
 	}
 }
+
+func (app *application) PostLoginPage(w http.ResponseWriter, r *http.Request) {
+	app.Session.RenewToken(r.Context())
+
+	err := r.ParseForm()
+	if err != nil {
+		app.errorLog.Println(err)
+
+		return
+	}
+
+	email := r.Form.Get("email")
+	password := r.Form.Get("password")
+
+	id, err := app.DB.Authenticate(email, password)
+	if err != nil {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	}
+
+	app.Session.Put(r.Context(), "userID", id)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+
+}
+
+func (app *application) Logout(w http.ResponseWriter, r *http.Request) {
+	app.Session.Destroy(r.Context())
+	app.Session.RenewToken(r.Context())
+
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+}
+
+func (app *application) ForgotPassword(w http.ResponseWriter, r *http.Request) {
+
+	if err := app.renderTemplate(w, r, "forgot-password", &templateData{}); err != nil {
+		app.errorLog.Print(err)
+	}
+}
