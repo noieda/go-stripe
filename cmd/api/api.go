@@ -23,6 +23,14 @@ type config struct {
 		secret string
 		key    string
 	}
+	smtp struct {
+		host     string
+		port     int
+		username string
+		password string
+	}
+	secretkey string
+	frontend  string
 }
 
 type application struct {
@@ -51,19 +59,25 @@ func (app *application) serve() error {
 func main() {
 	var cfg config
 
+	// port, env and dsn
 	flag.IntVar(&cfg.port, "port", 4001, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application environment {development|production|maintenance}")
-
 	flag.StringVar(&cfg.db.dsn, "dsn", "trevor:secret@tcp(localhost:3306)/widgets?parseTime=true&tls=false", "DSN")
 
-	// huh? work without flagparse?
+	// email smtp
+	flag.StringVar(&cfg.smtp.host, "smtphost", "smtp.mailtrap.io", "smtp host")
+	flag.StringVar(&cfg.smtp.username, "smtpuser", "b325ac9c3a6099", "smtp user")
+	flag.StringVar(&cfg.smtp.password, "smtppass", "d0ec6f0efa04c6", "smtp password")
+	flag.IntVar(&cfg.smtp.port, "smtpport", 587, "smtp port")
+
+	// secret and frontend
+	flag.StringVar(&cfg.secretkey, "secret", "bazingga", "secret key")
+	flag.StringVar(&cfg.frontend, "frontend", "http://localhost:4000", "url to frontend")
+
 	flag.Parse()
 
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
-
-	// fmt.Println("\n>backend stripe key " + cfg.stripe.key)
-	// fmt.Println("\n>backend stripe secret " + cfg.stripe.secret)
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
