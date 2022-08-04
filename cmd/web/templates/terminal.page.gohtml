@@ -83,9 +83,10 @@
         checkAuth();
 
         let a = document.getElementById("charge_amount")
-        if(a) {
+        
+        {{/* if(a) {
             console.log("charge amount ada")
-        }
+        } */}}
 
         document.getElementById("charge_amount").addEventListener("change", function(evt){
             if(evt.target.value !== "") {
@@ -186,11 +187,13 @@
                         showCardError(result.error.message)
                         showPayButton()
                     } else if (result.paymentIntent) {
-                        console.log(result)
-                        console.log("success 1")
+                        
+                        {{/* console.log(result)
+                        console.log("success 1") */}}
+
                         if (result.paymentIntent.status === "succeeded") {
 
-                            console.log("success 2")
+                            {{/* console.log("success 2") */}}
                             // card successfully charged
                             
                             {{/* document.getElementById("payment_method").value = result.paymentIntent.payment_method
@@ -245,8 +248,10 @@
         fetch("{{.API}}/api/admin/virtual-terminal-succeeded", requestOptions)
             .then(response => response.json())
             .then(function(data){
-                console.log(data)
-                console.log("success 3")
+                
+                {{/* console.log(data) */}}
+                {{/* console.log("success 3") */}}
+               
                 processing.classList.add("d-none")
                 showCardSuccess();
                 document.getElementById("bank-return-code").innerHTML = data.bank_return_code

@@ -72,7 +72,7 @@ func main() {
 	flag.StringVar(&cfg.api, "api", "http://localhost:4001", "URL to api")
 
 	// secret and frontend
-	flag.StringVar(&cfg.secretkey, "secret", "bazingga", "secret key")
+	flag.StringVar(&cfg.secretkey, "secret", "VHA9czD03KEIk4KS9vpwNraEgdY1KXqJ", "secret key")
 	flag.StringVar(&cfg.frontend, "frontend", "http://localhost:4000", "url to frontend")
 
 	flag.Parse()

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go-stripe/internal/cards"
+	"go-stripe/internal/encryption"
 	"go-stripe/internal/models"
 	"go-stripe/internal/urlsigner"
 	"net/http"
@@ -47,7 +48,7 @@ type TransactionData struct {
 	LastFour        string
 	ExpiryMonth     int
 	ExpiryYear      int
-	BackReturnCode  string
+	BankReturnCode  string
 }
 
 // GetTransactionData get txn data from post and stripe
@@ -105,7 +106,7 @@ func (app *application) GetTransactionData(r *http.Request) (TransactionData, er
 		LastFour:        lastFour,
 		ExpiryMonth:     int(expiryMonth),
 		ExpiryYear:      int(expiryYear),
-		BackReturnCode:  pi.Charges.Data[0].ID,
+		BankReturnCode:  pi.Charges.Data[0].ID,
 	}
 
 	return txnData, nil
@@ -131,7 +132,7 @@ func (app *application) VirtualTerminalPaymentSucceeded(w http.ResponseWriter, r
 		ExpiryYear:          txnData.ExpiryYear,
 		PaymentIntent:       txnData.PaymentIntentID,
 		PaymentMethod:       txnData.PaymentMethodID,
-		BankReturnCode:      txnData.BackReturnCode,
+		BankReturnCode:      txnData.BankReturnCode,
 		TransactionStatusID: 2,
 	}
 
@@ -206,7 +207,7 @@ func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request)
 		ExpiryYear:          txnData.ExpiryYear,
 		PaymentIntent:       txnData.PaymentIntentID,
 		PaymentMethod:       txnData.PaymentMethodID,
-		BankReturnCode:      txnData.BackReturnCode,
+		BankReturnCode:      txnData.BankReturnCode,
 		TransactionStatusID: 2,
 	}
 
@@ -390,6 +391,7 @@ func (app *application) ForgotPassword(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) ShowResetPassword(w http.ResponseWriter, r *http.Request) {
+	email := r.URL.Query().Get("email")
 	theURL := r.RequestURI
 	testURL := fmt.Sprintf("%s%s", app.config.frontend, theURL)
 
@@ -404,8 +406,25 @@ func (app *application) ShowResetPassword(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	// make sure not expired
+	expired := signer.Expired(testURL, 60)
+	if expired {
+		app.errorLog.Println("link expired :(")
+		return
+	}
+
+	encryptor := encryption.Encryption{
+		Key: []byte(app.config.secretkey),
+	}
+
+	encryptedEmail, err := encryptor.Encrypt(email)
+	if err != nil {
+		app.errorLog.Println("encryption failed :9")
+		return
+	}
+
 	data := make(map[string]interface{})
-	data["email"] = r.URL.Query().Get("email")
+	data["email"] = encryptedEmail
 
 	if err := app.renderTemplate(w, r, "reset-password", &templateData{
 		Data: data,
