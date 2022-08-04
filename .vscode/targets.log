@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Aug 03 13:02:15 2022
+# Make data base, printed on Thu Aug 04 10:00:23 2022
 
 # Variables
 
@@ -45,7 +45,7 @@ GOPATH = C:\Users\nekro\go
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_9720_ZWRPXNYAUKHOFKRH
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_23748_VKTEHMBJIGPRHNQS
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -83,7 +83,8 @@ CURDIR := d:/b._Repositori/11._stripetutor/go-stripe
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
-*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+*D = $(patsubst %/,%,$(patsubst %\,%,$ 
+(dir $*)))
 # makefile (from '.env', line 2)
 STRIPE_SECRET = sk_test_51LBLBQBWsuY0cZrm45b3CJSMRKO7gG6nmnf49R5VS84uPkYEWP8PhL7cfQPDyJwEPshwkfBQNFuXycINnXAg8wMK00F0ljmk0X
 # environment
@@ -101,7 +102,7 @@ MAKEFILE_LIST := Makefile .env
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 9720
+VSCODE_PID = 23748
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # environment
@@ -171,7 +172,8 @@ USERDOMAIN = LAPTOP-92B34I7P
 # 'override' directive
 GNUMAKEFLAGS := 
 # environment
-OS = Windows_NT
+OS = Window 
+s_NT
 # makefile
 .DEFAULT_GOAL := build
 # environment
@@ -225,8 +227,8 @@ ALLUSERSPROFILE = C:\ProgramData
 # environment
 SESSIONNAME = Console
 # default
-.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extr 
-a-prereqs archives jobserver output-sync load
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target ex 
+tra-prereqs archives jobserver output-sync load
 # environment
 MIC_LD_LIBRARY_PATH = C:\Program Files (x86)\Common Files\Intel\Shared Libraries\compiler\lib\mic
 # environment
@@ -319,7 +321,8 @@ clean:
 	@go clean
 	@echo Cleaned and deleted binaries
 
-stop: stop_front stop_back
+stop: stop_ 
+front stop_back
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -393,6 +396,6 @@ restart_front: stop_front start_front
 # strcache performance: lookups = 72 / hit rate = 50%
 # hash-table stats:
 # Load=36/8192=0%, Rehash=0, Collisions=0/72=0%
-# Finished Make data base on Wed Aug 03 13:02:15 2022
+# Finished Make data base on Thu Aug 04 10:00:23 2022
 
  
