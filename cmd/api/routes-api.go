@@ -40,11 +40,14 @@ func (app *application) routes() http.Handler {
 	mux.Route("/api/admin", func(mux chi.Router) {
 		mux.Use(app.Auth)
 
-		// mux.Get("/test", func(w http.ResponseWriter, r *http.Request) {
-		// 	w.Write(([]byte("got in")))
-		// })
-
 		mux.Post("/virtual-terminal-succeeded", app.VirtualTerminalPaymentSucceeded)
+		mux.Post("/all-sales", app.AllSales)
+		mux.Post("/all-subscriptions", app.AllSubscriptions)
+
+		mux.Post("/get-sale/{id}", app.GetSale)
+
+		mux.Post("/refund", app.RefundCharge)
+
 	})
 
 	return mux

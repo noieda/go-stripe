@@ -535,3 +535,81 @@ func (app *application) ResetPassword(w http.ResponseWriter, r *http.Request) {
 
 	app.writeJSON(w, http.StatusCreated, resp)
 }
+
+func (app *application) AllSales(w http.ResponseWriter, r *http.Request) {
+
+	allSales, err := app.DB.GetAllOrders("order")
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	app.writeJSON(w, http.StatusOK, allSales)
+}
+
+func (app *application) AllSubscriptions(w http.ResponseWriter, r *http.Request) {
+
+	allSales, err := app.DB.GetAllOrders("subscription")
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	app.writeJSON(w, http.StatusOK, allSales)
+
+}
+
+func (app *application) GetSale(w http.ResponseWriter, r *http.Request) {
+
+	id := chi.URLParam(r, "id")
+	orderID, _ := strconv.Atoi(id)
+
+	order, err := app.DB.GetOrderByID(orderID)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	app.writeJSON(w, http.StatusOK, order)
+
+}
+
+func (app *application) RefundCharge(w http.ResponseWriter, r *http.Request) {
+
+	var chargeToRefund struct {
+		ID            int    `json:"id"`
+		PaymentIntent string `json:"pi"`
+		Amount        int    `json:"amount"`
+		Currecy       string `json:"currency"`
+	}
+
+	err := app.readJSON(w, r, &chargeToRefund)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	// validate the amount agains the underlying order
+
+	card := cards.Card{
+		Secret:   app.config.stripe.secret,
+		Key:      app.config.stripe.key,
+		Currency: chargeToRefund.Currecy,
+	}
+
+	err = card.Refund(chargeToRefund.PaymentIntent, chargeToRefund.Amount)
+	if err != nil {
+		app.badRequest(w, r, err)
+		return
+	}
+
+	var resp struct {
+		Error   bool   `json:"error"`
+		Message string `json:"message"`
+	}
+
+	resp.Error = false
+	resp.Message = "Charge Refunded"
+
+	app.writeJSON(w, http.StatusOK, resp)
+}
