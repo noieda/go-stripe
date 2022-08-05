@@ -134,6 +134,23 @@ func (c *Card) Refund(pi string, amount int) error {
 	return nil
 }
 
+// CancelSubscription cancels a subscription by subscription id
+func (c *Card) CancelSubscription(subID string) error {
+
+	stripe.Key = c.Secret
+
+	params := &stripe.SubscriptionParams{
+		CancelAtPeriodEnd: stripe.Bool(true),
+	}
+
+	_, err := sub.Update(subID, params)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // cardErrorMessage return human readable version of card error message
 func cardErrorMessage(code stripe.ErrorCode) string {
 	var msg = ""
