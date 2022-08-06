@@ -16,8 +16,12 @@ func (app *application) routes() http.Handler {
 
 		mux.Use(app.Auth)
 		mux.Get("/virtual-terminal", app.VirtualTerminal)
+
 		mux.Get("/all-sales", app.AllSales)
-		mux.Get("/all-subscription", app.AllSubscription)
+		mux.Get("/paged-sales", app.PagedSales)
+
+		mux.Get("/all-subscriptions", app.AllSubscription)
+		mux.Get("/paged-subscriptions", app.PagedSubscriptions)
 
 		mux.Get("/sales/{id}", app.ShowSale)
 		mux.Get("/subscriptions/{id}", app.ShowSubscription)

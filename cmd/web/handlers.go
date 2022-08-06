@@ -24,14 +24,6 @@ func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 // virtual terminal
 func (app *application) VirtualTerminal(w http.ResponseWriter, r *http.Request) {
 
-	// stringMap := make(map[string]string)
-	// stringMap["publishable_key"] = app.config.stripe.key
-
-	// fmt.Println(app.config)
-	// fmt.Println(app.config.stripe.key)
-
-	// fmt.Println(stringMap["publishable_key"])
-
 	if err := app.renderTemplate(w, r, "terminal", &templateData{}, "stripe-js"); err != nil {
 		app.errorLog.Println(err)
 	}
@@ -315,7 +307,9 @@ func (app *application) ChargeOnce(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["widget"] = widget
 
-	if err := app.renderTemplate(w, r, "buy-once", &templateData{Data: data}, "stripe-js"); err != nil {
+	if err := app.renderTemplate(w, r, "buy-once", &templateData{
+		Data: data,
+	}, "stripe-js"); err != nil {
 		app.errorLog.Println(err)
 	}
 }
@@ -440,8 +434,20 @@ func (app *application) AllSales(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func (app *application) PagedSales(w http.ResponseWriter, r *http.Request) {
+	if err := app.renderTemplate(w, r, "paged-sales", &templateData{}); err != nil {
+		app.errorLog.Print(err)
+	}
+}
+
 func (app *application) AllSubscription(w http.ResponseWriter, r *http.Request) {
-	if err := app.renderTemplate(w, r, "all-subscription", &templateData{}); err != nil {
+	if err := app.renderTemplate(w, r, "all-subscriptions", &templateData{}); err != nil {
+		app.errorLog.Print(err)
+	}
+}
+
+func (app *application) PagedSubscriptions(w http.ResponseWriter, r *http.Request) {
+	if err := app.renderTemplate(w, r, "paged-subscriptions", &templateData{}); err != nil {
 		app.errorLog.Print(err)
 	}
 }
@@ -452,6 +458,8 @@ func (app *application) ShowSale(w http.ResponseWriter, r *http.Request) {
 	stringMap["title"] = "Sale"
 	stringMap["cancel"] = "/admin/all-sales"
 
+	stringMap["refunded-badge"] = "Refunded"
+	stringMap["refunded-msg"] = "Charge Refunded"
 	stringMap["refund-url"] = "/api/admin/refund"
 	stringMap["refund-btn"] = "Refund Order"
 
@@ -468,6 +476,8 @@ func (app *application) ShowSubscription(w http.ResponseWriter, r *http.Request)
 	stringMap["title"] = "Subscription"
 	stringMap["cancel"] = "/admin/all-subscription"
 
+	stringMap["refunded-badge"] = "Cancelled"
+	stringMap["refunded-msg"] = "Subscription cancelled"
 	stringMap["refund-url"] = "/api/admin/cancel-subscription"
 	stringMap["refund-btn"] = "Cancel Subscription"
 

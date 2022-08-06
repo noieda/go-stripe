@@ -404,6 +404,108 @@ func (m *DBModel) GetAllOrders(orderType string) ([]*Order, error) {
 	return orders, nil
 }
 
+// GetAllOrdersPaginated returns a slice of subset of orders
+func (m *DBModel) GetAllOrdersPaginated(orderType string, pageSize, page int) ([]*Order, int, int, error) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	offset := (page - 1) * pageSize
+
+	var orders []*Order
+
+	var orderOrsubs int
+	if orderType == "order" {
+		orderOrsubs = 0
+	} else if orderType == "subscription" {
+		orderOrsubs = 1
+	} else {
+		return nil, 0, 0, nil
+	}
+
+	query := `
+	SELECT
+		o.id, o.widget_id, o.transaction_id, o.customer_id,
+		o.status_id, o.quantity, o.amount, o.created_at,
+		o.updated_at, w.id, w.name, t.id, t.amount, t.currency,
+		t.last_four, t.expiry_month, t.expiry_year,
+		t.payment_intent, t.bank_return_code,
+		c.id, c.first_name, c.last_name, c.email
+	FROM
+		orders as o
+		LEFT JOIN widgets AS w ON (o.widget_id = w.id)
+		LEFT JOIN transactions AS t ON (o.transaction_id = t.id)
+		LEFT JOIN customers AS c ON (o.customer_id = c.id)
+	WHERE
+		w.is_recurring = ?
+	ORDER BY
+		o.created_at desc
+	LIMIT ?
+	OFFSET ?
+	`
+
+	rows, err := m.DB.QueryContext(ctx, query, orderOrsubs, pageSize, offset)
+	if err != nil {
+		return nil, 0, 0, err
+	}
+
+	for rows.Next() {
+		var o Order
+		err = rows.Scan(
+			&o.ID,
+			&o.WidgetID,
+			&o.TransactionID,
+			&o.CustomerID,
+			&o.StatusID,
+			&o.Quantity,
+			&o.Amount,
+			&o.CreatedAt,
+			&o.UpdatedAt,
+			&o.Widget.ID,
+			&o.Widget.Name,
+			&o.Transaction.ID,
+			&o.Transaction.Amount,
+			&o.Transaction.Currency,
+			&o.Transaction.LastFour,
+			&o.Transaction.ExpiryMonth,
+			&o.Transaction.ExpiryYear,
+			&o.Transaction.PaymentIntent,
+			&o.Transaction.BankReturnCode,
+			&o.Customer.ID,
+			&o.Customer.FirstName,
+			&o.Customer.LastName,
+			&o.Customer.Email,
+		)
+
+		if err != nil {
+			return nil, 0, 0, err
+		}
+
+		orders = append(orders, &o)
+	}
+
+	query = `
+		SELECT 
+			count(o.id)
+		FROM
+			orders o
+			LEFT JOIN widgets w ON (o.widget_id = w.id)
+		WHERE
+			w.is_recurring = ?
+	`
+
+	var totalRecords int
+	countRow := m.DB.QueryRowContext(ctx, query, orderOrsubs)
+	err = countRow.Scan(&totalRecords)
+	if err != nil {
+		return nil, 0, 0, err
+	}
+
+	lastPage := totalRecords / pageSize
+
+	return orders, lastPage, totalRecords, nil
+}
+
 func (m *DBModel) GetOrderByID(id int) (Order, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)

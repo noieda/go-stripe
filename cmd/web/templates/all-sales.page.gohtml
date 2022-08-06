@@ -26,6 +26,11 @@
 
 {{define "js"}}
     <script>
+
+    
+
+    document.addEventListener("DOMContentLoaded", function() {
+        
         let token = localStorage.getItem("token")
         let tbody = document.getElementById("sales-table").getElementsByTagName("tbody")[0]
 
@@ -74,18 +79,12 @@
                 } else {
                     let newRow = tbody.insertRow()
                     let newCell = newRow.insertCell()
-                    newCell.setAttribute("colspan", "4")
+                    newCell.setAttribute("colspan", "5")
                     newCell.innerHTML = "No data available"
                 }
         })
 
-        function formatCurrency(amount) {
-            let c = parseFloat(amount/100);
-            return c.toLocaleString("en-CA", {
-                style: "currency",
-                currency: "CAD",
-            })
-        }
+    })
 
     </script>
 {{end}}
