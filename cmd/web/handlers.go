@@ -365,6 +365,8 @@ func (app *application) PostLoginPage(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	}
 
+	// app.infoLog.Println("user id dari handlers: ", id)
+
 	app.Session.Put(r.Context(), "userID", id)
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 
@@ -484,6 +486,20 @@ func (app *application) ShowSubscription(w http.ResponseWriter, r *http.Request)
 	if err := app.renderTemplate(w, r, "sale", &templateData{
 		StringMap: stringMap,
 	}); err != nil {
+		app.errorLog.Print(err)
+	}
+}
+
+// AllUsers show all user
+func (app *application) AllUsers(w http.ResponseWriter, r *http.Request) {
+	if err := app.renderTemplate(w, r, "all-users", &templateData{}); err != nil {
+		app.errorLog.Print(err)
+	}
+}
+
+// OneUser shows one admin user for add/edit/delete
+func (app *application) OneUser(w http.ResponseWriter, r *http.Request) {
+	if err := app.renderTemplate(w, r, "one-user", &templateData{}); err != nil {
 		app.errorLog.Print(err)
 	}
 }

@@ -18,6 +18,7 @@ type templateData struct {
 	Warning              string
 	Error                string
 	IsAuthenticated      int
+	UserID               int
 	API                  string
 	CssVersion           string
 	StripeSecretKey      string
@@ -43,9 +44,16 @@ func (app *application) addDefaultData(td *templateData, r *http.Request) *templ
 	td.StripeSecretKey = app.config.stripe.secret
 
 	if app.Session.Exists(r.Context(), "userID") {
+		// app.infoLog.Println("session userID exist")
 		td.IsAuthenticated = 1
+		td.UserID = app.Session.GetInt(r.Context(), "userID")
+		// app.infoLog.Println(td.UserID)
 	} else {
+		// app.infoLog.Println("session userID not exist")
 		td.IsAuthenticated = 0
+		td.UserID = 0
+		// app.infoLog.Println(td.UserID)
+
 	}
 
 	return td
